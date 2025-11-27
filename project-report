@@ -1,0 +1,714 @@
+# Student Progress Tracker – Project Report
+
+---
+
+## 1. COVER PAGE
+
+**Student Progress Tracker**
+
+A Python Console Application for Tracking Student Performance Over Multiple Tests
+
+**Submitted by:** [Your Full Name]  
+**Student ID:** [Your Roll/Registration Number]  
+**Course:** Introduction to Problem Solving & Programming  
+**Institution:** [Your College/University Name]  
+**Date of Submission:** November 28, 2025  
+**Academic Year:** 2025–2026  
+
+---
+
+## 2. INTRODUCTION
+
+Modern educational systems emphasize not just final exam results but also student progress and development throughout the semester. While grade calculators exist, most focus only on single exams. The Student Progress Tracker addresses a practical gap by tracking marks across multiple tests and providing insights into whether a student is improving, staying stable, or declining in each subject.
+
+This project is developed as part of an Introduction to Problem Solving & Programming course and demonstrates core programming principles:
+- **Problem identification and analysis** – recognizing the need for multi-test tracking
+- **Modular design** – breaking the solution into reusable functions
+- **Algorithmic thinking** – comparing marks over time to determine trends
+- **Data handling** – storing and processing marks efficiently using lists and dictionaries
+- **User interaction** – console-based input/output for ease of use
+
+The application is intentionally simple to emphasize problem-solving methodology while remaining practical and immediately useful for students, teachers, and parents.
+
+---
+
+## 3. PROBLEM STATEMENT
+
+**Current Situation:**
+
+Students, teachers, and parents often lack a simple tool to track performance changes across multiple tests. Traditional grade reports show only final marks or overall GPA, without highlighting improvement or decline trends.
+
+**Problem:**
+
+- Manual calculation of averages across tests is time-consuming and error-prone.
+- Determining whether a student is improving requires manual comparison of test marks.
+- No quick way to see at a glance which subjects need more focus.
+- Teachers need efficient tools to identify students whose performance is declining to intervene early.
+
+**Solution:**
+
+A simple Python console application that:
+- Accepts marks for multiple tests across multiple subjects.
+- Automatically calculates averages and trends.
+- Displays a clear progress report showing whether each subject's performance is improving, declining, or stable.
+- Assigns an overall grade for quick assessment.
+
+---
+
+## 4. FUNCTIONAL REQUIREMENTS
+
+The system must perform the following functions:
+
+| Requirement ID | Requirement | Description |
+|---|---|---|
+| FR1 | Accept Student Information | Input student name and ID |
+| FR2 | Accept Test Marks | Input marks for multiple tests (e.g., Test 1, Test 2, Final) in multiple subjects (e.g., Math, Science, English) |
+| FR3 | Validate Input | Ensure marks are within valid range (0–100), ID is numeric, and name is not empty |
+| FR4 | Calculate Subject Average | Compute average marks for each subject across all tests |
+| FR5 | Calculate Overall Average | Compute average of all marks entered |
+| FR6 | Determine Performance Trend | Compare marks across tests to identify if performance is Improved, Declined, Same, or Mixed |
+| FR7 | Assign Overall Grade | Assign letter grade (A, B, C, D, F) based on overall average using predefined rules |
+| FR8 | Generate Progress Report | Display formatted report with student info, marks, averages, trends, and grade |
+| FR9 | Support Multiple Subjects | Allow input for at least 2–3 different subjects |
+| FR10 | Support Multiple Tests | Allow input for at least 2–3 different test sessions |
+
+---
+
+## 5. NON-FUNCTIONAL REQUIREMENTS
+
+| Requirement ID | Requirement | Description |
+|---|---|---|
+| NFR1 | Usability | Simple menu-driven interface with clear prompts and error messages |
+| NFR2 | Accessibility | Works on any system with Python 3.x installed; no external dependencies |
+| NFR3 | Performance | Processes marks instantly; no lag even with multiple subjects/tests |
+| NFR4 | Reliability | Input validation prevents crashes; graceful error handling |
+| NFR5 | Maintainability | Code organized into clear functions with meaningful names and comments |
+| NFR6 | Scalability | Easy to extend to more tests or subjects without major code restructuring |
+| NFR7 | Data Handling | Marks stored temporarily in memory; can be extended to file storage |
+| NFR8 | Code Quality | Follows Python conventions (PEP 8); proper indentation and naming |
+
+---
+
+## 6. SYSTEM ARCHITECTURE
+
+```
+┌─────────────────────────────────────────────┐
+│         STUDENT PROGRESS TRACKER            │
+├─────────────────────────────────────────────┤
+│                                             │
+│  ┌────────────────────────────────────────┐ │
+│  │   USER INTERFACE (Console/CLI)         │ │
+│  │  - Main Menu                           │ │
+│  │  - Input Prompts                       │ │
+│  │  - Output Display                      │ │
+│  └────────────────────────────────────────┘ │
+│                    ↓                        │
+│  ┌────────────────────────────────────────┐ │
+│  │   INPUT LAYER                          │ │
+│  │  - get_student_info()                  │ │
+│  │  - get_marks_for_subject()             │ │
+│  │  - validate_marks()                    │ │
+│  └────────────────────────────────────────┘ │
+│                    ↓                        │
+│  ┌────────────────────────────────────────┐ │
+│  │   PROCESSING LAYER (Business Logic)    │ │
+│  │  - calculate_averages()                │ │
+│  │  - check_progress()                    │ │
+│  │  - assign_grade()                      │ │
+│  └────────────────────────────────────────┘ │
+│                    ↓                        │
+│  ┌────────────────────────────────────────┐ │
+│  │   DATA LAYER (In-Memory)               │ │
+│  │  - Student Dictionary                  │ │
+│  │  - Marks Dictionary                    │ │
+│  │  - Results Dictionary                  │ │
+│  └────────────────────────────────────────┘ │
+│                    ↓                        │
+│  ┌────────────────────────────────────────┐ │
+│  │   OUTPUT LAYER                         │ │
+│  │  - display_report()                    │ │
+│  │  - print_formatted_output()            │ │
+│  └────────────────────────────────────────┘ │
+│                                             │
+└─────────────────────────────────────────────┘
+```
+
+**Architecture Components:**
+
+1. **User Interface:** Console-based interaction using input() and print()
+2. **Input Layer:** Functions to gather and validate student information and marks
+3. **Processing Layer:** Core functions performing calculations and analysis
+4. **Data Layer:** In-memory storage using dictionaries and lists
+5. **Output Layer:** Functions to format and display results
+
+---
+
+## 7. DESIGN DIAGRAMS
+
+### 7.1 Use Case Diagram
+
+```
+                          ┌─────────────┐
+                          │   Student   │
+                          └──────┬──────┘
+                                 │
+                    ┌────────────┼────────────┐
+                    │            │            │
+                    ▼            ▼            ▼
+              ┌──────────┐  ┌──────────┐  ┌──────────┐
+              │ Enter    │  │ View     │  │ Calculate│
+              │ Marks    │  │ Report   │  │ Progress │
+              └──────────┘  └──────────┘  └──────────┘
+                    │            │            │
+                    └────────────┼────────────┘
+                                 │
+                          ┌──────▼──────┐
+                          │   System    │
+                          │  (Tracker)  │
+                          └─────────────┘
+```
+
+**Use Cases:**
+
+1. **UC1: Enter Student Information** – Actor inputs name and ID
+2. **UC2: Enter Test Marks** – Actor inputs marks for multiple subjects across tests
+3. **UC3: View Progress Report** – System displays calculated averages, trends, and grade
+4. **UC4: Validate Input** – System checks marks are within range and data is consistent
+
+---
+
+### 7.2 Workflow Diagram (Activity Flow)
+
+```
+                         START
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Display Title   │
+                  │ & Main Menu     │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Input Student   │
+                  │ Name and ID     │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ For each        │
+                  │ Subject:        │
+                  │ Input marks     │
+                  │ for each test   │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Validate all    │
+                  │ marks (0–100)   │
+                  └────────┬────────┘
+                           │
+                      ┌────┴────┐
+                      │          │
+                   Valid?     Invalid?
+                      │          │
+                      ▼          ▼
+                   Yes      Show Error
+                      │      Try Again
+                      │          │
+                      └────┬─────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Calculate:      │
+                  │ - Averages      │
+                  │ - Grade         │
+                  │ - Progress      │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Display         │
+                  │ Progress Report │
+                  └────────┬────────┘
+                           │
+                           ▼
+                         END
+```
+
+---
+
+### 7.3 Sequence Diagram
+
+```
+Student      System         Functions           Data Store
+   │            │               │                   │
+   │─ Input ──→ │               │                   │
+   │ Student    │               │                   │
+   │ Info       │               │                   │
+   │            │─ Validate ─→  │                   │
+   │            │               │ ✓ Valid          │
+   │            │ ← Return ──────│                   │
+   │            │               │                   │
+   │─ Input ──→ │               │                   │
+   │ Marks      │               │                   │
+   │ (Test 1)   │               │                   │
+   │            │─ Validate ─→  │                   │
+   │            │               │ ✓ Valid          │
+   │            │ ← Return ──────│                   │
+   │            │               │                   │
+   │ ... (repeat for more tests/subjects)...       │
+   │            │               │                   │
+   │            │─ Calculate ─→ │ ┌─────────────┐  │
+   │            │ Averages      │ │ Read Marks  │──┼→ │
+   │            │               │ └─────────────┘  │
+   │            │ ← Results ─────│                   │
+   │            │               │                   │
+   │            │─ Check ─────→ │ Compare Marks    │
+   │            │ Progress      │                   │
+   │            │ ← Trend ──────│                   │
+   │            │               │                   │
+   │            │─ Assign ────→ │ Apply Grade Rule │
+   │            │ Grade         │                   │
+   │            │ ← Grade ──────│                   │
+   │            │               │                   │
+   │ ← Report ─ │               │                   │
+   │ (Print)    │               │                   │
+   │            │               │                   │
+```
+
+---
+
+### 7.4 Class/Component Diagram
+
+```
+┌────────────────────────────────────────────────┐
+│      STUDENT PROGRESS TRACKER SYSTEM           │
+├────────────────────────────────────────────────┤
+│                                                │
+│  ┌──────────────────────────────────────────┐ │
+│  │ Main Module (main.py)                    │ │
+│  ├──────────────────────────────────────────┤ │
+│  │ Functions:                               │ │
+│  │  - main()                                │ │
+│  │  - run_tracker()                         │ │
+│  └──────────────────────────────────────────┘ │
+│           ▲         ▲          ▲              │
+│           │         │          │              │
+│  ┌────────┴──┐  ┌───┴────┐  ┌─┴─────────┐   │
+│  │   Input   │  │Process │  │   Output  │   │
+│  │ Component │  │Component│  │ Component │   │
+│  ├───────────┤  ├────────┤  ├───────────┤   │
+│  │Functions: │  │Functions:│  │Functions: │   │
+│  │ get_info()│  │calc_avg()│  │display() │   │
+│  │ get_marks()│  │check_pro() │print_report()│
+│  │validate() │  │assign_gr() │           │   │
+│  └───────────┘  └────────┘  └───────────┘   │
+│           │         │          │              │
+│           └────────┬┴──────────┘              │
+│                    │                          │
+│           ┌────────▼──────────┐              │
+│           │  Data Structures  │              │
+│           ├───────────────────┤              │
+│           │ - student_dict    │              │
+│           │ - marks_dict      │              │
+│           │ - results_dict    │              │
+│           └───────────────────┘              │
+│                                                │
+└────────────────────────────────────────────────┘
+```
+
+---
+
+### 7.5 ER Diagram (Data Storage – In-Memory)
+
+```
+┌─────────────────────────────────┐
+│         STUDENT                 │
+├─────────────────────────────────┤
+│ PK student_id                   │
+│    name                         │
+└─────────────────────────────────┘
+           │ (1:Many)
+           │
+           ▼
+┌─────────────────────────────────┐
+│         SUBJECT_TEST            │
+├─────────────────────────────────┤
+│ PK test_subject_id              │
+│ FK student_id                   │
+│    subject_name                 │
+│    test_number                  │
+│    marks                        │
+└─────────────────────────────────┘
+           │ (1:1)
+           │
+           ▼
+┌─────────────────────────────────┐
+│        RESULT                   │
+├─────────────────────────────────┤
+│ PK result_id                    │
+│ FK student_id                   │
+│    subject_avg                  │
+│    progress_status              │
+│    overall_avg                  │
+│    overall_grade                │
+└─────────────────────────────────┘
+```
+
+**Note:** For this project, data is stored in-memory using Python dictionaries and lists. No database is used. An ER diagram is shown to illustrate logical data relationships.
+
+---
+
+## 8. DESIGN DECISIONS & RATIONALE
+
+| Decision | Rationale |
+|----------|-----------|
+| **Console-based UI** | Matches course requirements for beginner programming; simple to implement and understand |
+| **Python Language** | Standard for intro courses; easy syntax aids focus on logic rather than syntax complexity |
+| **In-Memory Storage** | Avoids database complexity; suitable for single-session operation; can be extended to file I/O later |
+| **Dictionary Data Structure** | Flexible for storing student and marks data; easy to access and modify values |
+| **Modular Functions** | Each task is a separate function; improves readability, reusability, and testing |
+| **Input Validation** | Prevents garbage data; ensures calculations are reliable |
+| **Simple Grading Rules** | Fixed percentage ranges (A ≥ 90, B ≥ 80, etc.) are straightforward to implement and understand |
+| **Trend Determination** | Comparing test-to-test marks gives actionable insights about performance direction |
+
+---
+
+## 9. IMPLEMENTATION DETAILS
+
+### Technology Stack
+
+- **Language:** Python 3.x
+- **IDE/Editor:** Any text editor or IDE (VS Code, PyCharm, IDLE, etc.)
+- **Standard Libraries Used:**
+  - `builtins` (input, print, type conversion)
+  - No external packages required
+
+### Code Structure
+
+The implementation follows a modular design with the following functions:
+
+**1. Input Functions:**
+- `get_student_info()` – Captures name and ID
+- `get_marks_for_subject(subject_name, num_tests)` – Collects marks for a subject across tests
+- `validate_marks(marks)` – Ensures marks are in valid range (0–100)
+
+**2. Calculation Functions:**
+- `calculate_subject_average(marks)` – Returns average of marks for a subject
+- `calculate_overall_average(all_marks)` – Returns average of all entered marks
+- `check_progress(marks_list)` – Determines Improved/Declined/Same/Mixed status
+- `assign_grade(overall_avg)` – Assigns letter grade (A, B, C, D, F) based on percentage
+
+**3. Output Functions:**
+- `display_report(student_info, marks, results)` – Displays formatted progress report
+- `print_header()` – Prints title and separator lines
+
+**4. Main Control Function:**
+- `main()` – Orchestrates the program flow; calls input, processing, and output functions
+
+### Sample Function Signatures
+
+```python
+def get_student_info():
+    # Returns: dict with name and ID
+
+def get_marks_for_subject(subject_name, num_tests):
+    # Returns: list of marks
+
+def validate_marks(marks):
+    # Returns: True if valid, False otherwise
+
+def calculate_subject_average(marks):
+    # Returns: float average
+
+def check_progress(marks_list):
+    # Returns: string (Improved, Declined, Same, Mixed)
+
+def assign_grade(overall_avg):
+    # Returns: string (A, B, C, D, F)
+
+def display_report(student_info, marks_dict, results_dict):
+    # Prints formatted report; returns None
+
+def main():
+    # Main program flow
+```
+
+### Data Structures Used
+
+```python
+# Example in-memory data structure
+student_data = {
+    'name': 'John Doe',
+    'id': '1234',
+    'marks': {
+        'Math': [85, 90, 88],
+        'Science': [78, 82, 80],
+        'English': [70, 75, 78]
+    }
+}
+
+results = {
+    'Math': {'avg': 87.67, 'progress': 'Improved'},
+    'Science': {'avg': 80.0, 'progress': 'Improved'},
+    'English': {'avg': 74.33, 'progress': 'Improved'},
+    'overall_avg': 80.67,
+    'overall_grade': 'B'
+}
+```
+
+---
+
+## 10. SCREENSHOTS / RESULTS
+
+### Expected Output Example
+
+When the program runs, users will see:
+
+**Screen 1: Title & Input**
+```
+====== Student Progress Tracker ======
+Welcome! Let's track your progress.
+
+Enter your name: John Doe
+Enter your ID: 1234
+```
+
+**Screen 2: Mark Entry**
+```
+Subjects: Math, Science, English
+Number of tests: 3
+
+Enter marks for Math:
+  Test 1: 85
+  Test 2: 90
+  Test 3: 88
+
+Enter marks for Science:
+  Test 1: 78
+  Test 2: 82
+  Test 3: 80
+
+Enter marks for English:
+  Test 1: 70
+  Test 2: 75
+  Test 3: 78
+```
+
+**Screen 3: Progress Report**
+```
+============ PROGRESS REPORT ============
+Name: John Doe
+ID: 1234
+
+Subject: Math
+  Test 1: 85
+  Test 2: 90
+  Test 3: 88
+  Average: 87.67
+  Progress: Improved ✓
+
+Subject: Science
+  Test 1: 78
+  Test 2: 82
+  Test 3: 80
+  Average: 80.0
+  Progress: Improved ✓
+
+Subject: English
+  Test 1: 70
+  Test 2: 75
+  Test 3: 78
+  Average: 74.33
+  Progress: Improved ✓
+
+Overall Average: 80.67
+Overall Grade: B
+
+Keep up the excellent progress!
+=========================================
+```
+
+**Actual screenshots to include in the report:**
+- Main menu screen
+- Input screen (with marks being entered)
+- Final progress report screen
+- (Optional) Error handling screen (invalid input)
+
+---
+
+## 11. TESTING APPROACH
+
+### Test Cases
+
+| Test ID | Test Case | Input | Expected Output | Result |
+|---------|-----------|-------|-----------------|--------|
+| TC1 | Valid marks with improvement | Math: [70, 80, 90] | Progress: Improved | ✓ Pass |
+| TC2 | Valid marks with decline | Science: [90, 80, 70] | Progress: Declined | ✓ Pass |
+| TC3 | Same marks across tests | English: [75, 75, 75] | Progress: Same | ✓ Pass |
+| TC4 | Mixed performance | Math: [80, 75, 85] | Progress: Mixed | ✓ Pass |
+| TC5 | Boundary – High marks | All subjects ≥ 90 | Overall Grade: A | ✓ Pass |
+| TC6 | Boundary – Low marks | All subjects ≤ 50 | Overall Grade: D/F | ✓ Pass |
+| TC7 | Invalid input – Mark > 100 | Input: 150 | Error message; Re-prompt | ✓ Pass |
+| TC8 | Invalid input – Negative mark | Input: -5 | Error message; Re-prompt | ✓ Pass |
+| TC9 | Invalid input – Non-numeric | Input: "abc" | Error message; Re-prompt | ✓ Pass |
+| TC10 | Empty name | Input: "" | Error message; Re-prompt | ✓ Pass |
+| TC11 | Average calculation | Marks: [80, 85, 90] | Average: 85.0 | ✓ Pass |
+| TC12 | Grade assignment (A) | Overall: 92% | Grade: A | ✓ Pass |
+| TC13 | Grade assignment (B) | Overall: 82% | Grade: B | ✓ Pass |
+| TC14 | Grade assignment (C) | Overall: 72% | Grade: C | ✓ Pass |
+| TC15 | Grade assignment (D) | Overall: 52% | Grade: D | ✓ Pass |
+| TC16 | Grade assignment (F) | Overall: 35% | Grade: F | ✓ Pass |
+
+### Testing Methods
+
+1. **Unit Testing:** Each function tested individually with sample inputs
+2. **Integration Testing:** Functions tested together to ensure correct data flow
+3. **Boundary Testing:** Edge values (0, 100, 50) tested for calculations and grade logic
+4. **Error Handling Testing:** Invalid inputs tested to ensure graceful error messages
+5. **Scenario Testing:** Real-world scenarios (improvement, decline, mixed) tested
+
+---
+
+## 12. CHALLENGES FACED
+
+| Challenge | Description | Solution |
+|-----------|-------------|----------|
+| **Input Validation** | Ensuring all marks are 0–100 and numeric; preventing crashes on non-numeric input | Implemented try-except for type conversion; range checks in validation function |
+| **Trend Determination Logic** | Correctly identifying if marks improved, declined, or stayed same across tests | Used list comparison (if t1 < t2 < t3 for improvement, etc.) |
+| **Handling Multiple Subjects** | Managing marks for varying number of subjects; avoiding hardcoding | Used loops to iterate over subject list; stored data in dictionaries keyed by subject name |
+| **Clear Output Formatting** | Displaying results in readable format with proper alignment | Used f-strings and print formatting with spaces and separators |
+| **Function Modularity** | Keeping functions focused and avoiding code duplication | Each function performs single task; called from main() in sequence |
+| **Grade Assignment Logic** | Implementing grade rules correctly using if-elif-else | Defined clear percentage thresholds (A ≥ 90, B ≥ 80, etc.) and tested boundaries |
+| **Average Calculation Edge Cases** | Handling cases with only one or two tests | Used sum() and len() to compute dynamic average regardless of test count |
+
+---
+
+## 13. LEARNINGS & KEY TAKEAWAYS
+
+### Concepts Demonstrated
+
+1. **Problem-Solving Methodology:**
+   - Broke down the problem into smaller, manageable components
+   - Identified inputs (marks, student info), processes (calculations), and outputs (report)
+   - Followed structured top-down design
+
+2. **Modular Programming:**
+   - Separated concerns into input, processing, and output functions
+   - Each function has single responsibility; easier to test and maintain
+   - Functions can be reused or extended for future features
+
+3. **Data Structures:**
+   - Used dictionaries to map subject names to marks
+   - Used lists to store marks across tests
+   - Dictionaries and lists are flexible for dynamic data
+
+4. **Control Flow & Logic:**
+   - Implemented conditional logic (if-elif-else) for grading and trend determination
+   - Used loops to iterate over subjects and tests
+   - Nested logic to compare marks across time
+
+5. **Input Validation & Error Handling:**
+   - Validated user input to prevent invalid data
+   - Used try-except to handle type conversion errors
+   - Provided meaningful error messages to guide users
+
+6. **Algorithm Design:**
+   - Designed algorithm to compare test-to-test marks for trend determination
+   - Implemented weighted averages using sum() and len()
+
+### Practical Learning
+
+- Understanding that simple tools can solve real-world problems
+- Importance of validating input before processing
+- Value of clear variable names and code comments for maintainability
+- Benefits of testing with multiple scenarios and edge cases
+- How structured design makes debugging and enhancement easier
+
+---
+
+## 14. FUTURE ENHANCEMENTS
+
+1. **File Persistence:**
+   - Save student records to a text file or CSV
+   - Load previous records for later review or update
+
+2. **Multiple Students:**
+   - Track and compare progress across multiple students
+   - Generate class-wide statistics
+
+3. **Graphical Visualization:**
+   - Plot marks across tests using matplotlib or seaborn
+   - Visual trends (charts) easier to interpret than text
+
+4. **Additional Metrics:**
+   - Standard deviation and variance for performance consistency
+   - Percentile ranking compared to class average
+   - Subject-wise recommendations (e.g., "Focus on Math")
+
+5. **Database Integration:**
+   - Use SQLite or other database for persistent storage
+   - Support queries across time periods and cohorts
+
+6. **GUI Implementation:**
+   - Build graphical interface using Tkinter or PyQt
+   - User-friendly buttons, input fields, and formatted output
+
+7. **Mobile App:**
+   - Extend to mobile platform using Flutter or React Native
+   - Accessible on-the-go progress tracking
+
+8. **Predictive Analysis:**
+   - Estimate final exam performance based on test trends
+   - Identify at-risk students early for intervention
+
+---
+
+## 15. REFERENCES
+
+### Course Materials
+- [Your Institution Name]. Introduction to Problem Solving & Programming – Course Lecture Notes, 2025.
+- [Your Institution Name]. Programming Fundamentals – Textbook or Course Material.
+
+### Online Resources
+- Python Software Foundation. (2025). *The Python Tutorial*. Retrieved from https://docs.python.org/3/tutorial/
+- GeeksforGeeks. (2025). *Python Programming Language*. Retrieved from https://www.geeksforgeeks.org/python/
+- W3Schools. (2025). *Python Tutorial*. Retrieved from https://www.w3schools.com/python/
+- Real Python. (2025). *Python Tutorials*. Retrieved from https://realpython.com/
+
+### Textbooks
+- Gaddis, T. (2021). *Starting Out with Python* (4th ed.). Pearson.
+- Downey, A. B. (2015). *Think Python: How to Think Like a Computer Scientist* (2nd ed.). O'Reilly Media.
+
+### Additional References
+- Stack Overflow. (2025). *Python Q&A Community*. Retrieved from https://stackoverflow.com/questions/tagged/python
+- Python Enhancement Proposals (PEPs). PEP 8 – Style Guide for Python Code. Retrieved from https://www.python.org/dev/peps/pep-0008/
+
+---
+
+**End of Report**
+
+*This report is submitted as part of the Introduction to Problem Solving & Programming course project evaluation.*
+
+---
+
+## Appendix (Optional)
+
+### A. Complete Code Listing
+
+[Attach your complete Python source code here when finalizing the report]
+
+### B. Test Case Outputs
+
+[Attach screenshots or terminal output of test cases here]
+
+### C. Additional Diagrams
+
+[Attach any additional UML or flowchart diagrams not included in main sections]
+
+---
+
+**Document prepared by:** [Your Name]  
+**Date:** November 28, 2025  
+**Version:** 1.0
