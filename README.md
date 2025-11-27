@@ -25,3 +25,35 @@ Student Progress Tracker is a simple Python console application that helps track
    - Download from the official Python website and follow the installer steps.
 
 2. Download or clone the project repository:
+   https://github.com/Sanjay2528/Student_progress_tracker.git
+3. Run the Python program:
+   or, depending on your system:
+
+4. Follow the on-screen menu or prompts to enter student details and marks.
+
+## Instructions for Testing
+
+When testing the application, try the following scenarios:
+
+# Case 1: Clear Improvement  
+- Enter lower marks in Test 1 and higher marks in Test 2 (and/or later tests) for each subject.  
+- Expected: Progress status should show “Improved” for those subjects.
+
+# Case 2: Decline in Performance  
+- Enter higher marks in Test 1 and lower marks in Test 2.  
+- Expected: Progress status should show “Declined” for those subjects.
+
+# Case 3: Same Performance  
+- Enter equal marks across tests.  
+- Expected: Progress status should show “Same”.
+
+# Case 4: Mixed Performance  
+- Enter marks that go up in one test and down in another.  
+- Expected: Progress status should show “Mixed” or your chosen label.
+
+# Case 5: Boundary Values  
+- Use 0, 100, and mid-range values to ensure average and grade calculations are correct.
+- Check if your grade logic behaves correctly around boundary values (for example, 39/40, 59/60, etc.).
+
+
+
